@@ -228,3 +228,8 @@ input[type="checkbox"] ~ .glyphicon-chevron-up { display: inline-block; }
 input[type="checkbox"]:checked ~ .glyphicon-chevron-up { display: none; }
 
 */
+/* Explanatory line at the top of a checklist, not a checkable item */
+.list-note {
+  color: #777;
+  margin-bottom: 10px;
+}
