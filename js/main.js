@@ -145,7 +145,7 @@
                 .collapse('hide')
                 .removeData('bs.collapse.in')
                 // restore single panel behavior
-                .collapse({parent:'#tabPlaythrough', toggle:false});
+                .collapse({parent:'#checklists', toggle:false});
 
                 // next state will be close all
                 $(this).data("lastState",0);
@@ -153,13 +153,6 @@
             var hidden = !$(this).is(':checked');
             $('body').toggleClass('collapse_all', !hidden);
 
-        });
-
-        $('[data-item-toggle]').change(function() {
-            var type = $(this).data('item-toggle');
-            var to_hide = $(this).is(':checked');
-
-            calculateTotals();
         });
 
         calculateTotals();
@@ -188,16 +181,12 @@
             var overallCount = 0, overallChecked = 0;
             $('[id^="' + type + '_totals_"]').each(function(index) {
                 var regex = new RegExp(type + '_totals_(.*)');
-                var regexFilter = new RegExp('^playthrough_(.*)');
                 var i = parseInt(this.id.match(regex)[1]);
                 var count = 0, checked = 0;
                 for (var j = 1; ; j++) {
                     var checkbox = $('#' + type + '_' + i + '_' + j);
                     if (checkbox.length == 0) {
                         break;
-                    }
-                    if(checkbox.is(':hidden') && checkbox.prop('id').match(regexFilter) && canFilter(checkbox.closest('li'))) {
-                        continue;
                     }
                     count++;
                     overallCount++;
@@ -260,29 +249,6 @@
         for (var profile in profiles[profilesKey]) {
             return profile;
         }
-    }
-
-    function canFilter(entry) {
-        if (!entry.attr('class')) {
-            return false;
-        }
-        var classList = entry.attr('class').split(/\s+/);
-        var foundMatch = 0;
-        for (var i = 0; i < classList.length; i++) {
-            if (!classList[i].match(/^f_(.*)/)) {
-                continue;
-            }
-            if(classList[i] in profiles[profilesKey][profiles.current].hidden_categories) {
-                if(!profiles[profilesKey][profiles.current].hidden_categories[classList[i]]) {
-                    return false;
-                }
-                foundMatch = 1;
-            }
-        }
-        if (foundMatch === 0) {
-            return false;
-        }
-        return true;
     }
 
     /*
